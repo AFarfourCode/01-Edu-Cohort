@@ -1,0 +1,20 @@
+h1 {
+    color: rgb(203, 101, 101);
+}
+
+h2 {
+    color: rgb(226, 192, 0)
+}
+
+h3 {
+    color: grey
+}
+p {
+    color:green
+}
+
+hr {
+    border-width: 2px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+}
