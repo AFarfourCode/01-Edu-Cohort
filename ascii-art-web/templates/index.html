@@ -2,43 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ASCII Art Web</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; }
-        textarea { width: 300px; height: 100px; }
-        pre { 
-            background: #f4f4f4; 
-            padding: 10px; 
-            border: 1px solid #ddd; 
-            display: inline-block; 
-            text-align: left; 
-            overflow-x: auto;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to ASCII Art Generator</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>ASCII Art Web</h1>
 
-    <form action="/ascii-art" method="POST">
+    <main class="container">
         
-        <textarea name="text" placeholder="Type your text here..." required></textarea>
-        <br><br>
+        <div class="hero">
+            <h1>Text to ASCII Art Generator</h1>
+            <p>Create Stunning Text Art Online instantly.</p>
+        </div>
 
-        <label>Choose a Banner:</label>
-        <select name="banner">
-            <option value="standard">Standard</option>
-            <option value="shadow">Shadow</option>
-            <option value="thinkertoy">Thinkertoy</option>
-        </select>
-        <br><br>
+        <div class="generator-box">
+            
+            <form action="/ascii-art" method="POST">
+                <div class="controls">
+                    
+                    <div class="input-group">
+                        <label for="user-text">Input Text</label>
+                        <input type="text" name="text" id="user-text" placeholder="Type something..." value="{{ .Input }}" autocomplete="off" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="font-select">Font Style</label>
+                        <select id="font-select" name="banner">
+                            <option value="standard">Standard</option>
+                            <option value="shadow">Shadow</option>
+                            <option value="thinkertoy">Thinkertoy</option>
+                        </select>
+                    </div>
 
-        <button type="submit">Generate Art</button>
-    </form>
+                    <button type="submit" class="generate-btn">GENERATE</button>
+                </div>
+            </form>
 
-    {{if .Result}}
-        <h2>Your Result:</h2>
-        <pre>{{.Result}}</pre>
-    {{end}}
+            <div class="preview-section">
+                <div class="preview-header">
+                    <span>Result</span>
+                </div>
+                <div class="ascii-output">
+                    <pre id="ascii-art">{{ if .Result }}{{ .Result }}{{ else }}
+  _   _        _   _       _ 
+ | \ | |      | | | |     | |
+ |  \| | _  _ | | | |     | |
+ | . ` || || || | | |     |_|
+ |_|\__||____||_| |_|     (_)
+                          {{ end }}</pre>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
 
 </body>
 </html>

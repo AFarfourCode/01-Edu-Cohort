@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error {{ .StatusCode }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <main class="container">
+        <div class="generator-box" style="text-align: center; padding: 50px;">
+            
+            <div class="status-code">
+                {{ .StatusCode }}
+            </div>
+            
+            <div class="error-message">
+                SYSTEM FAILURE: {{ .Message }}
+            </div>
+
+            <a href="/" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                REBOOT / HOME
+            </a>
+
+            <div class="footer">
+                TERMINAL HALTED
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
