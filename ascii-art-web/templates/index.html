@@ -3,56 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to ASCII Art Generator</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>ASCII Art Generator</title>
+    <style>
+        /* =========================================
+           1. GLOBAL RESET & BASICS
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        /* =========================================
+           2. BODY & MAIN LAYOUT
+           ========================================= */
+        body {
+            background-color: #111827; 
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #a78bfa;  
+            margin-bottom: 20px;
+        }
+
+        /* =========================================
+           3. FORM STYLING
+           ========================================= */
+        form {
+            background-color: #1f2937;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #374151;
+            
+            /* Flexbox Layout */
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap; /* Responsive wrapping */
+            align-items: flex-end; /* Align bottom */
+            margin-bottom: 20px;
+        }
+
+        /* =========================================
+           4. INPUT LABELS
+           ========================================= */
+        label {
+            text-align: left;
+            flex: 1;
+            min-width: 20px; /* Wraps if screen is small */
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+
+        /* =========================================
+           5. INPUTS, TEXTAREA & DROPDOWN
+           ========================================= */
+        /* Added 'textarea' here so it gets the dark style */
+        input, select, textarea {
+            width: 100%;
+            margin-top: 5px;
+            padding: 10px;
+            background: #111827;
+            border: 1px solid #4b5563;
+            color: white;
+            border-radius: 5px;
+            outline: none;
+            font-family: sans-serif; /* Ensure font matches */
+        }
+
+        /* Specific style for Textarea size */
+        textarea {
+            resize: vertical; /* Allow vertical resize only */
+            min-height: 40px;
+            height: 40px;     /* Start with same height as button */
+        }
+
+        /* Focus Effect */
+        input:focus, select:focus, textarea:focus {
+            border-color: #8b5cf6; /* Purple border on focus */
+        }
+
+        /* =========================================
+           6. SUBMIT BUTTON
+           ========================================= */
+        button {
+            background-color: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 0 25px; /* Padding adjustment */
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            height: 42px; /* Fixed height to match inputs */
+        }
+
+        button:hover {
+            background-color: #7c3aed;
+        }
+
+        /* =========================================
+           7. OUTPUT RESULT AREA
+           ========================================= */
+        .output-box {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto; /* Scrollbar for wide art */
+            text-align: center;
+        }
+
+        pre {
+            font-family: 'Courier New', monospace; /* Required for ASCII */
+            color: #a5f3fc; /* Light Cyan */
+            line-height: 1.2;
+            display: inline-block;
+            text-align: left;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 
     <main class="container">
+        <h1>Text to ASCII Art</h1>
         
-        <div class="hero">
-            <h1>Text to ASCII Art Generator</h1>
-            <p>Create Stunning Text Art Online instantly.</p>
-        </div>
+        <form action="/ascii-art" method="POST">
+            <label>
+                Input Text:
+                <textarea name="text" placeholder="Type something..." >{{ .Input }}</textarea>
+            </label>
 
-        <div class="generator-box">
-            
-            <form action="/ascii-art" method="POST">
-                <div class="controls">
-                    
-                    <div class="input-group">
-                        <label for="user-text">Input Text</label>
-                        <input type="text" name="text" id="user-text" placeholder="Type something..." value="{{ .Input }}" autocomplete="off" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="font-select">Font Style</label>
-                        <select id="font-select" name="banner">
-                            <option value="standard">Standard</option>
-                            <option value="shadow">Shadow</option>
-                            <option value="thinkertoy">Thinkertoy</option>
-                        </select>
-                    </div>
+            <label>
+                Font Style:
+                <select name="banner">
+                    <option value="standard">Standard</option>
+                    <option value="shadow">Shadow</option>
+                    <option value="thinkertoy">Thinkertoy</option>
+                </select>
+            </label>
 
-                    <button type="submit" class="generate-btn">GENERATE</button>
-                </div>
-            </form>
+            <button type="submit">Generate</button>
+        </form>
 
-            <div class="preview-section">
-                <div class="preview-header">
-                    <span>Result</span>
-                </div>
-                <div class="ascii-output">
-                    <pre id="ascii-art">{{ if .Result }}{{ .Result }}{{ else }}
-  _   _        _   _       _ 
- | \ | |      | | | |     | |
- |  \| | _  _ | | | |     | |
- | . ` || || || | | |     |_|
- |_|\__||____||_| |_|     (_)
-                          {{ end }}</pre>
-                </div>
-            </div>
-
+        <div class="output-box">
+            <pre>{{ if .Result }}{{ .Result }}{{ else }}
+ _   _   ______  __   __  _______  ______   _____              
+| \ | | |  ____| \ \ / / |__   __||  ____| |  __ \      /\     
+|  \| | | |__     \ V /     | |   | |__    | |__) |    /  \    
+| . ` | |  __|     > <      | |   |  __|   |  _  /    / /\ \   
+| |\  | | |____   / . \     | |   | |____  | | \ \   / ____ \  
+|_| \_| |______| /_/ \_\    |_|   |______| |_|  \_\ /_/    \_\ 
+{{ end }}</pre>
         </div>
 
     </main>
